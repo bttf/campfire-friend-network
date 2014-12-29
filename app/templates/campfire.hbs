@@ -1,0 +1,25 @@
+<h1>{{name}}</h1>
+
+<h2>Friends:</h2>
+<ul>
+  {{#each friend in model.friends}}
+    <li>
+      {{friend.name}} - <a href='#' {{action 'deleteFriend' friend}}>delete friend</a>
+    </li>
+  {{/each}}
+</ul>
+
+<br>
+
+<h2>Request friends:</h2>
+<ul>
+  {{#each friend in model.newFriends}}
+    {{#unless friend.isDirty}}
+      <li><a href='#' {{action 'requestFriend' friend}}>{{friend.name}}</a></li>
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<br>
+
+<a href='#' {{action 'debugReload'}}>debug: reload</a>
