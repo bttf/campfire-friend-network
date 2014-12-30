@@ -1,20 +1,20 @@
-<h2 id='title'>Campfire Friend Network [{{#link-to 'index'}}home{{/link-to}}]</h2>
-
 <div class='container'>
+  <div class='row'>
+    <div class='col-xs-12'>
+      <h2 id="title">Campfire Friend Network</h2>
+    </div>
+  </div>
   <div class='row'>
     <div class='col-xs-4'>
       <ul>
         {{#each campfire in model}}
-          <li>
-            {{#link-to 'campfire' campfire}}{{campfire.name}}{{/link-to}} 
-          </li>
+          {{#unless campfire.isNew}}
+            <li>
+              {{#link-to 'campfire' campfire}}{{campfire.name}}{{/link-to}}
+            </li>
+          {{/unless}}
         {{/each}}
       </ul>
-      <br>
-      <form>
-        {{input type='text' value=model.newCampfire.name}}
-        <input type='submit' value='Save' {{action 'saveNewCampfire'}}>
-      </form>
     </div>
     <div class='col-xs-8'>
       {{outlet}}

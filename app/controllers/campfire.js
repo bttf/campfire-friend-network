@@ -2,35 +2,45 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   actions: {
+    acceptFriend: function(friend) {
+      var campfire = this.get('model');
+      campfire.get('friends').then(function(friends) {
+        friends.addObject(friend);
+        campfire.save();
+      });
+      friend.get('friends').then(function(friends) {
+        friends.addObject(campfire);
+        friend.save();
+      });
+      campfire.get('pendingFriends').then(function(pFriends) {
+        pFriends.removeObject(friend);
+        campfire.save();
+      });
+    },
+
+    addFriend: function(friend) {
+      var campfire = this.get('model');
+      friend.get('pendingFriends').then(function(pFriends) {
+        pFriends.addObject(campfire);
+        friend.save().then(function() {
+          console.log('%s added to %s pendingFriends', campfire.get('name'), friend.get('name'));
+        });
+      });
+    },
+
     deleteFriend: function(friend) {
-      var _this = this;
-      this.get('model').reload().then(function(model) {
-        model.get('friends').then(function(friends) {
-          friends.removeRecord(friend);
-          model.save().then(function() {
-            friend.save().then(function() {
-              console.log('friend deleted bro');
-            });
-          });
+      var campfire = this.get('model');
+      campfire.get('friends').then(function(friends) {
+        friends.removeObject(friend);
+        campfire.save().then(function() {
+          console.log('%s removed from %s friends', friend.get('name'), campfire.get('name'));
         });
       });
-    },
-
-    requestFriend: function(friend) {
-      var _this = this;
-      this.get('friends').then(function(friends) {
-        friends.addRecord(friend);
-        _this.get('model').save().then(function() {
-          console.log('user saved bro');
+      friend.get('friends').then(function(friends) {
+        friends.removeObject(campfire);
+        friend.save().then(function(){
+          console.log('%s removed from %s friends', campfire.get('name'), friend.get('name'));
         });
-      });
-    },
-
-    debugReload: function() {
-      var _this = this;
-      this.get('model').reload().then(function(model) {
-        _this.set('model', model);
-        console.log('reloaded');
       });
     }
   }

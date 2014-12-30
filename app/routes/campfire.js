@@ -5,6 +5,6 @@ export default Ember.Route.extend({
     return this.get('store').find('campfire', params.campfire_id);
   },
   afterModel: function(model, controller) {
-    model.set('newFriends', this.get('store').find('campfire'));
+    model.set('possibleFriends', this.get('store').find('campfire'));
   }
 });

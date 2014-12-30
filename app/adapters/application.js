@@ -1,6 +1,5 @@
 import DS from 'ember-data';
-import ENV from 'campfires/config/environment';
 
 export default DS.FirebaseAdapter.extend({
-  firebase: new window.Firebase("https://" + ENV.APP.firebaseInstance + ".firebaseio.com")
+  firebase: new window.Firebase('https://popping-heat-6151.firebaseio.com')
 });

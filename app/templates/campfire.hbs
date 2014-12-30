@@ -1,25 +1,33 @@
 <h1>{{name}}</h1>
 
-<h2>Friends:</h2>
-<ul>
-  {{#each friend in model.friends}}
-    <li>
-      {{friend.name}} - <a href='#' {{action 'deleteFriend' friend}}>delete friend</a>
-    </li>
+{{#if friends}}
+  <h3>Friends:</h3>
+  <ul>
+  {{#each friend in friends}}
+    <li>{{friend.name}} - <a href='#' {{action 'deleteFriend' friend}}>delete</a></li>   
   {{/each}}
-</ul>
+  </ul>
+{{else}}
+  <h3>No friends</h3>
+{{/if}}
 
 <br>
 
-<h2>Request friends:</h2>
-<ul>
-  {{#each friend in model.newFriends}}
-    {{#unless friend.isDirty}}
-      <li><a href='#' {{action 'requestFriend' friend}}>{{friend.name}}</a></li>
-    {{/unless}}
+{{#if pendingFriends}}
+  <h3>Pending friend requests</h3>
+  <ul>
+  {{#each friend in pendingFriends}}
+    <li>{{friend.name}} - <a href='#' {{action 'acceptFriend' friend}}>accept</a></li>
   {{/each}}
-</ul>
+  </ul>
+{{/if}}
 
 <br>
 
-<a href='#' {{action 'debugReload'}}>debug: reload</a>
+<h4>Add Friends:</h4>
+<ul>
+  {{#each friend in possibleFriends}}
+    <li><a href='#' {{action 'addFriend' friend}}>{{friend.name}}</a></li>
+  {{/each}}
+</ul>
+{{outlet}}

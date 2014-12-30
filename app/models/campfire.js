@@ -6,5 +6,5 @@ var attr = DS.attr,
 export default DS.Model.extend({
   name: attr('string'),
   friends: hasMany('campfire', { inverse: 'friends', async: true }),
-  isPending: attr('boolean')
+  pendingFriends: hasMany('campfire', { inverse: null, async: true})
 });
